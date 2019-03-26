@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Joke from "./Joke";
 import Stories from "./Stories";
 
-const App = () => {
+//Hook must be a function so the `this` keyword inside the function is in context of the hook.
+
+//Arrow functions do not create their own context, that is why all methods inside hook will be
+//using arrow notations
+
+function App() {
   const [userQuery, setUserQuery] = useState("");
 
   const updateUserQuery = event => {

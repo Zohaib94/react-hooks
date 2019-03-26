@@ -1,5 +1,7 @@
 import React from "react";
 
+//This is a presentational dumb component that is why arrow function notation is OK
+
 const Story = (props) => {
   const storyContent = props.storyContent;
 
