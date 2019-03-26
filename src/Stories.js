@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Story from './Story';
+import React from "react";
+import Story from "./Story";
+import { useFetch } from "./Hooks";
 
 const Stories = () => {
-  const [stories, setStories] = useState([]);
-
-  useEffect(() => {
-    fetch("https://news-proxy-server.appspot.com/topstories")
-      .then(response => response.json())
-      .then(json => {
-        setStories(json);
-      });
-  }, []);
+  const stories = useFetch(
+    "https://news-proxy-server.appspot.com/topstories",
+    []
+  );
 
   return (
     <div className="Stories">
       {stories.map(story => {
-        return (<Story key={story.id} storyContent={story} />);
+        return <Story key={story.id} storyContent={story} />;
       })}
     </div>
   );
