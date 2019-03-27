@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Joke from "./Joke";
 import Stories from "./Stories";
+import Tasks from "./Tasks";
 
 //Hook must be a function so the `this` keyword inside the function is in context of the hook.
 
@@ -38,6 +39,8 @@ function App() {
       <hr/>
       <Joke/>
       <hr/>
+      <Tasks />
+      <hr />
       <Stories />
     </div>
   );
