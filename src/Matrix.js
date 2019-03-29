@@ -1,28 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Pictures from './data/matrix';
+import { useDynamicTransition } from './Hooks';
 const DEFAULT_DELAY = 1000;
 const DEFAULT_STEP = 1;
 
 function Matrix() {
-  const [imageIndex, setImageIndex] = useState(0);
   const [delay, setDelay] = useState(DEFAULT_DELAY);
   const [step, setStep] = useState(DEFAULT_STEP);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // We set index in a callback to get the latest value inside set interval because we are going to
-      //push the setinterval callback only once in stack so if we just set value then it will always
-      //pick the initial value of imageIndex
-      setImageIndex((latestIndex) => {
-        return (latestIndex + step)%Pictures.length
-      })
-    }, delay);
-
-    // Return a callback that clears the interval, so that the callback does not keep on firing even after gallery has been hidden
-    return () => {
-      clearInterval(intervalId);
-    }
-  }, [delay, step])
+  const imageIndex = useDynamicTransition({ delay, step, length: Pictures.length });
 
   const updateDelay = event => {
     const updatedDelay = Number(event.target.value) * 1000
