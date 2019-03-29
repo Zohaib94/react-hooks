@@ -3,6 +3,7 @@ import Joke from "./Joke";
 import Stories from "./Stories";
 import Tasks from "./Tasks";
 import Gallery from "./Gallery";
+import Matrix from "./Matrix";
 
 //Hook must be a function so the `this` keyword inside the function is in context of the hook.
 
@@ -51,6 +52,8 @@ function App() {
         showGallery ? <Gallery/> : null
       }
       <button onClick={toggleShowGallery}>{showGallery ? 'Hide' : 'Show'}</button>
+      <hr />
+      <Matrix />
       <hr />
       <Stories />
     </div>
