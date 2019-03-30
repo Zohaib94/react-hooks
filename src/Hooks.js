@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import Context from './state/context';
+import { useState, useEffect, useContext } from "react";
 
 export function useFetch(url, initialState) {
   const [result, setResult] = useState(initialState);
@@ -34,4 +35,8 @@ export function useDynamicTransition({ delay, step, length }) {
   }, [delay, step]);
 
   return imageIndex;
+}
+
+export function useAppContext() {
+  return useContext(Context);
 }
