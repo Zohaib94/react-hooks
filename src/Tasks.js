@@ -1,7 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import uuid from "uuid/v4";
 
 const TASKS_STORAGE_KEY = "TASKS_STORAGE_KEY";
+
+const TYPES = {
+  ADD_TASK: 'ADD_TASK',
+  COMPLETE_TASK: 'COMPLETE_TASK',
+  REMOVE_TASK: 'REMOVE_TASK'
+}
+
+const INITIAL_STATE = {
+  tasks: [],
+  completedTasks: []
+}
+
+const tasksReducer = (state, action) => {
+  switch(action.type) {
+    default:
+      return state;
+
+    case TYPES.ADD_TASK: {
+      return {
+        ...state,
+        tasks: [...state.tasks, action.task]
+      }
+    }
+
+    case TYPES.COMPLETE_TASK: {
+      const remainingTasks = state.tasks;
+
+      return {
+        ...state,
+        tasks: remainingTasks.filter(remainingTask => remainingTask.id !== action.task.id),
+        completedTasks: [...state.completedTasks, action.task]
+      }
+    }
+
+    case TYPES.REMOVE_TASK: {
+      const remainingTasks = state.completedTasks;
+      return {
+        ...state,
+        completedTasks: remainingTasks.filter(remainingTask => remainingTask.id !== action.task.id)
+      }
+    }
+  }
+}
 
 const storeTasks = taskMap => {
   localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(taskMap));
@@ -9,16 +52,15 @@ const storeTasks = taskMap => {
 
 const readTasks = () => {
   const taskMap = JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY));
-  return taskMap ? taskMap : { tasks: [], completedTasks: [] };
+  return taskMap ? taskMap : INITIAL_STATE;
 };
 
 function Tasks() {
   const storedTasks = readTasks();
   const [taskText, setTaskText] = useState("");
-  const [tasks, setTasks] = useState(storedTasks.tasks);
-  const [completedTasks, setCompletedTasks] = useState(
-    storedTasks.completedTasks
-  );
+
+  const [state, dispatch] = useReducer(tasksReducer, storedTasks);
+  const {tasks, completedTasks} = state;
 
   useEffect(() => {
     storeTasks({ tasks, completedTasks });
@@ -29,19 +71,31 @@ function Tasks() {
   };
 
   const addNewTask = () => {
-    setTasks([...tasks, { id: uuid(), title: taskText }]);
+    const newTaskAction = {
+      type: TYPES.ADD_TASK,
+      task: { id: uuid(), title: taskText }
+    }
+
+    dispatch(newTaskAction)
   };
 
   //Use this notation when you have to pass a reference to function with arguments
   const completeTask = completedTask => () => {
-    setCompletedTasks([...completedTasks, completedTask]);
-    setTasks(tasks.filter(task => task.id !== completedTask.id));
+    const completeTaskAction = {
+      type: TYPES.COMPLETE_TASK,
+      task: completedTask
+    }
+
+    dispatch(completeTaskAction)
   };
 
   const deleteTask = task => () => {
-    setCompletedTasks(
-      completedTasks.filter(completedTask => task.id !== completedTask.id)
-    );
+    const removeTaskAction = {
+      type: TYPES.REMOVE_TASK,
+      task
+    }
+
+    dispatch(removeTaskAction)
   };
 
   return (
