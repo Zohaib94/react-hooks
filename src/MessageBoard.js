@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppContext } from './Hooks';
 import CreateReaction from "./createReaction";
+import MessageReactions from "./MessageReactions";
 
 function MessageBoard() {
   const { state } = useAppContext();
@@ -16,6 +17,7 @@ function MessageBoard() {
             <p>{text}</p>
             <h4>{username}</h4>
             <CreateReaction messageId={id} />
+            <MessageReactions messageReactions={state.reactionsMap[id]} />
           </div>
         );
       })}
