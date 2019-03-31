@@ -3,6 +3,7 @@ import reducer, { INITIAL_STATE } from './state/reducer';
 import PublishMessage from './PublishMessage';
 import MessageBoard from './MessageBoard';
 import Context from './state/context';
+import './pubsub';
 
 function ReactionProject() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
