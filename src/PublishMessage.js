@@ -4,14 +4,14 @@ import { useAppContext } from './Hooks';
 
 function PublishMessage() {
   const [text, setText] = useState('');
-  const { pubsub } = useAppContext();
+  const { state: { username }, pubsub } = useAppContext();
 
   const updateText = event => {
     setText(event.target.value);
   };
 
   const addMessage = () => {
-    pubsub.publish(newMessage(text))
+    pubsub.publish(newMessage(text, username))
   };
 
   return (

@@ -2,17 +2,18 @@ import React from "react";
 import { useAppContext } from './Hooks';
 
 function MessageBoard() {
-  const { state: { messages } } = useAppContext();
+  const { state } = useAppContext();
 
   return (
     <div>
-      {messages.map(message => {
-        const { id, text, timestamp } = message;
+      {state.messages.map(message => {
+        const { id, text, timestamp, username } = message;
+
         return (
           <div key={id}>
             <h4>{new Date(timestamp).toLocaleString()}</h4>
-            {text}
-            <hr />
+            <p>{text}</p>
+            <h4>{username}</h4>
           </div>
         );
       })}

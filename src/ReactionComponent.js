@@ -4,6 +4,7 @@ import PubSub from "./pubsub";
 import PublishMessage from "./PublishMessage";
 import MessageBoard from "./MessageBoard";
 import Context from "./state/context";
+import UserName from "./userName";
 
 const pubsub = new PubSub();
 
@@ -29,6 +30,8 @@ function ReactionProject() {
         <PublishMessage />
         <hr />
         <MessageBoard />
+        <hr />
+        <UserName />
       </div>
     </Context.Provider>
   );
